@@ -14,7 +14,7 @@ def rawtext():
     nomenotatxt = ''
     for page in range(nomenota.numPages):
         nomenotatxt += nomenota.getPage(page).extractText()
-    return nomenotatxt
+    return nomenotatxt.strip()
 
 
 def text():
@@ -24,11 +24,35 @@ def text():
     return data[start:end].strip()
 
 
-def candidates():
+def rawcandidates():
     data = text()
-    candidates = data.split("/").strip()
+    candidates0 = data.split("/")
+    candidates = candidates0[:-5]
+    lastcandl = candidates0[-5].split('.')
+    lastcand = lastcandl[0]+lastcandl[1]
+    candidates.append(lastcand)
     return candidates
 
 
-def teststep1():
-    assert text().startswith("ADMINISTRAÇÃO") and text().endswith("-.") == True
+def candidates():
+    data = rawcandidates()
+    lista = []
+    for candidate in data:
+        if not candidate[0].isdecimal():
+            try:
+                candidatel = candidate.split(")")
+                realcandidate = candidatel[-1].strip()
+                lista.append(realcandidate)
+            except:
+                candidatel = candidate.split("*")
+                realcandidate = candidatel[-1].strip()
+                lista.append(realcandidate)
+        else:
+            lista.append(candidate.strip())
+    return lista
+
+
+def teste():
+    res = candidates()
+    print(
+        f"first element: {res[0]}\nsecond-to-last: {res[-2]}\nlast element: {res[-1]}",)
