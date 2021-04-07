@@ -1,6 +1,5 @@
 import PyPDF2
 
-
 nomecursoPDF = open('PDFs/nomecurso.PDF', 'rb')
 nomecurso = PyPDF2.PdfFileReader(nomecursoPDF)
 

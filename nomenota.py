@@ -1,4 +1,5 @@
 import PyPDF2
+
 nomenotaPDF = open("PDFs/nomenota.PDF", "rb")
 nomenota = PyPDF2.PdfFileReader(nomenotaPDF)
 
