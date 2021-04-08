@@ -20,7 +20,7 @@ def text():  # working
 
 def splittext():
     data = text()
-    res = data.split("\n")
+    res = data.split("\n")  # try splilines() method
     return res
 
 
