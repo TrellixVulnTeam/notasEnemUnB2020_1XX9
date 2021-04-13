@@ -20,36 +20,49 @@ def text():  # working
 
 def splittext():
     data = text()
-    res = data.split("\n")  # try splilines() method
+    res = data.splitlines()
     return res
 
 
 def extractIDandCourse():
-    rawnames = splittext()
-    rawdata = rawnames[:]
+    splittedtext = splittext()
     numandcourse = []
-    for i in rawdata:
-        if i.isnumeric() or "/" in i:
-            numandcourse += i
-    return numandcourse  # not working
+    for i in splittedtext:
+        if "Sociais-Antropologia" in i:
+            numandcourse.append(i)
+        if "(" in i or i.isnumeric():
+            numandcourse.append(i)
+    return numandcourse  # some issues
 
 
-def idEcourses():  # E == and in portuguese
+def idEcourses(debug=False):
     data = extractIDandCourse()
     idnumbers = []
     courses = []
-    di = {}
     for i in data:
         if i.isnumeric():
-            idnumbers += i
+            idnumbers.append(i)
         else:
-            courses += i
-    for r in range(len(courses)):
-        di[idnumbers[r]] = courses[r]
-    return di  # not working beacuse of extractIDandcourse
+            courses.append(i)
+
+    coursey = justfornow(courses)
+    ids = justID(idnumbers)
+
+    if debug:
+        return len(coursey), len(ids)
+
+    di = {"Id": ids, "Course": coursey}
+    return di  # It needs len(c) == len(n)
 
 
-rawdata = extractIDandCourse()
-dictres = idEcourses().items
+def justID(lista):
+    for i in lista:
+        if len(i) != 8:
+            lista.remove(i)
+    return lista
 
-print(rawdata[:5], "\n\n", dictres)
+
+def justfornow(lista):
+    xl = ["XYZ" for i in range(46)]
+    lista += xl
+    return lista

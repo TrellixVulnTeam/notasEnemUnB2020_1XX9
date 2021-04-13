@@ -7,6 +7,9 @@
 # first: build a csv file with the course and the minimum grade used to pass
 
 # %%
-import nomenota
-import nomecurso
+import nomenota as nn
+import nomecurso as nc
 import pandas as pd
+
+df = pd.DataFrame(nc.idEcourses())
+df.head()
