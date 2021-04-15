@@ -37,7 +37,8 @@ def candidates():
                 candidatel = candidate.split(")")
                 realcandidate = candidatel[-1].strip()
                 lista.append(realcandidate)
-            except:
+            except Exception:
+                # except Exception lets me use control+c to stop the code
                 candidatel = candidate.split("*")
                 realcandidate = candidatel[-1].strip()
                 lista.append(realcandidate)
