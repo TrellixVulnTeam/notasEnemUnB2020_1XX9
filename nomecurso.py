@@ -12,7 +12,7 @@ def rawtext(pdf):
     return txt.strip()
 
 
-def text():  # working
+def text():
     data = rawtext(nomecurso)
     start = data.find(".")
     return data[start+400:-559].strip()  # return just the required data
@@ -21,17 +21,18 @@ def text():  # working
 def splittext():
     data = text()
     res = data.splitlines()
-    return res
+    return res[2:]
 
 
 def extractIDandCourse():
     splittedtext = splittext()
     numandcourse = []
-    for i in splittedtext:
-        if "Sociais-Antropologia" in i:
-            numandcourse.append(i)
-        if "(" in i or i.isnumeric():
-            numandcourse.append(i)
+    for i in range(len(splittedtext)):
+        if splittedtext[i].isnumeric() and len(splittedtext[i]) == 8:
+            numandcourse.append(splittedtext[i])
+        elif numandcourse[-1].isnumeric() and not splittedtext[i].isspace():
+            numandcourse.append(splittedtext[i].strip())
+
     return numandcourse  # some issues
 
 
@@ -45,24 +46,8 @@ def idEcourses(debug=False):
         else:
             courses.append(i)
 
-    coursey = justfornow(courses)
-    ids = justID(idnumbers)
-
     if debug:
-        return len(coursey), len(ids)
+        return len(courses), len(idnumbers)
 
-    di = {"Id": ids, "Course": coursey}
+    di = {"Id": idnumbers, "Course": courses}
     return di  # It needs len(c) == len(n)
-
-
-def justID(lista):
-    for i in lista:
-        if len(i) != 8:
-            lista.remove(i)
-    return lista
-
-
-def justfornow(lista):
-    xl = ["XYZ" for i in range(46)]
-    lista += xl
-    return lista
