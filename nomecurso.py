@@ -1,5 +1,6 @@
 # %%
 import PyPDF2
+import json
 
 nomecursoPDF = open('PDFs/nomecurso.PDF', 'rb')
 nomecurso = PyPDF2.PdfFileReader(nomecursoPDF)
@@ -51,3 +52,11 @@ def idEcourses(debug=False):
 
     di = {"Id": idnumbers, "Course": courses}
     return di  # It needs len(c) == len(n)
+
+
+m = idEcourses()
+j = json.dumps(m)
+
+with open('jsons/nomecurso.json', 'w') as f:
+    f.write(j)
+    f.close()

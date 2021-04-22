@@ -85,6 +85,3 @@ def fixID(ID):
         return x[-1].strip()
     else:
         return ID
-
-
-todic()
