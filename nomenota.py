@@ -1,3 +1,4 @@
+# %%
 import PyPDF2
 
 nomenotaPDF = open("PDFs/nomenota.PDF", "rb")
@@ -19,7 +20,7 @@ def text():
 
 
 def rawcandidates():
-    data = text()
+    data = text().replace(' \n-\n,', '').replace('\n-', '').replace('\n', '')
     candidates0 = data.split("/")
     candidates = candidates0[:-5]
     lastcandl = candidates0[-5].split('.')
@@ -47,6 +48,43 @@ def candidates():
     return lista
 
 
-def teste():
-    data = candidates()
-    print(f"first element: {data[0]}\nlast element: {data[-1]}")
+def todic(debug=False):
+    pessoas = candidates()
+    IDs = []
+    grades = []
+    for candidate in pessoas:
+        wds = candidate.split(',')
+        IDs.append(fixID(wds[0].strip()))
+        for wd in wds:
+            pl = wd.strip()
+            if len(pl) >= 6 and wds[0] != wd and wd != wds[1] and wd != "(BACHARELADO":
+                grades.append(fixgrade(pl))
+    dic = {'IDs': IDs, 'Grades': grades}
+
+    if debug:
+        return len(IDs), len(grades)
+
+    return dic
+
+
+def fixgrade(grade):
+    if len(grade) > 6:
+        x = grade.split()
+        for i in x:
+            if len(i) == 6:
+                return i
+    elif len(grade) == 6:
+        return grade
+    else:
+        return None
+
+
+def fixID(ID):
+    if len(ID) > 8:
+        x = ID.split()
+        return x[-1].strip()
+    else:
+        return ID
+
+
+todic()
