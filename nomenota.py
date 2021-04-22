@@ -1,5 +1,6 @@
 # %%
 import PyPDF2
+import json
 
 nomenotaPDF = open("PDFs/nomenota.PDF", "rb")
 nomenota = PyPDF2.PdfFileReader(nomenotaPDF)
@@ -59,10 +60,14 @@ def todic(debug=False):
             pl = wd.strip()
             if len(pl) >= 6 and wds[0] != wd and wd != wds[1] and wd != "(BACHARELADO":
                 grades.append(fixgrade(pl))
+
+    IDs = byenones(IDs)
+    grades = byenones(grades)
+
     dic = {'IDs': IDs, 'Grades': grades}
 
     if debug:
-        return len(IDs), len(grades)
+        print(len(IDs), len(grades))
 
     return dic
 
@@ -71,7 +76,7 @@ def fixgrade(grade):
     if len(grade) > 6:
         x = grade.split()
         for i in x:
-            if len(i) == 6:
+            if len(i) == 6 and not i.isalpha():
                 return i
     elif len(grade) == 6:
         return grade
@@ -80,8 +85,25 @@ def fixgrade(grade):
 
 
 def fixID(ID):
-    if len(ID) > 8:
+    if len(ID) > 8 and not ID.isdecimal():
         x = ID.split()
-        return x[-1].strip()
+        if x[-1].isdecimal():
+            return x[-1].strip()
+    elif not ID.isdecimal():
+        return None
     else:
         return ID
+
+
+def byenones(nlist):
+    while None in nlist:
+        nlist.remove(None)
+    return(nlist)
+
+
+m = todic()
+j = json.dumps(m)
+
+with open('jsons/nomenota.json', 'w') as f:
+    f.write(j)
+    f.close()
