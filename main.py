@@ -7,9 +7,10 @@
 # first: build a csv file with the course and the minimum grade used to pass
 
 # %%
-import nomenota as nn
-import nomecurso as nc
 import pandas as pd
-
-df = pd.DataFrame(nc.idEcourses())
-df.head()
+# %%
+courseDF = pd.read_json('jsons/nomecurso.json')
+courseDF.head()
+# %%
+gradeDF = pd.read_json('jsons/nomenota.json')
+gradeDF.head()
