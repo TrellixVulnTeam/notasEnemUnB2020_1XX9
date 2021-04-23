@@ -4,10 +4,11 @@ import pandas as pd
 # %%
 courseDF = pd.read_json('jsons/nomecurso.json')
 courseDF = courseDF.rename(columns={'Id': 'IDs'})
+courseDF.groupby('IDs')
 
 # %%
 gradeDF = pd.read_json('jsons/nomenota.json')
-gradeDF.head()
+gradeDF.groupby('IDs')
 
 # %%
 passed = courseDF['IDs']
