@@ -1,20 +1,20 @@
 # %%
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # %%
-courseDF = pd.read_json('jsons/nomecurso.json')
-courseDF = courseDF.rename(columns={'Id': 'IDs'})
-courseDF.groupby('IDs')
+DFc = pd.read_json('jsons/nomecurso.json')
+DFc = DFc.rename(columns={'Id': 'IDs'})
+dfc = DFc.sort_values(by='IDs')
 
 # %%
-gradeDF = pd.read_json('jsons/nomenota.json')
-gradeDF.groupby('IDs')
+DFg = pd.read_json('jsons/nomenota.json')
+dfg = DFg.sort_values(by='IDs')
 
 # %%
-passed = courseDF['IDs']
-condition = gradeDF['IDs'].isin(passed)
-passedgrades = gradeDF.loc[condition]
+IDscourses = dfc['IDs']
+DF = dfg.query("IDs in @IDscourses")
 
 # %%
-passedgrades['Courses'] = courseDF['Course']
-passedgrades.head()
+DF['Course'] = list(dfc['Course'])
+DF.set_index('IDs')
