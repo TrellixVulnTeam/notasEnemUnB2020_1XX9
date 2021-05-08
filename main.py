@@ -17,4 +17,4 @@ DF = dfg.query("IDs in @IDscourses")
 
 # %%
 DF['Course'] = list(dfc['Course'])
-DF.set_index('IDs')
+DF = DF.set_index('IDs')
